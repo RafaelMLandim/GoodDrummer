@@ -49,10 +49,22 @@ const curriculum: LevelSeed[] = [
             targetBpm: 80,
           },
           {
+            name: "Single Stroke Four (RLRR / LRLL)",
+            type: ExerciseType.RUDIMENTO,
+            teacherTip: "Agrupamento do toque simples em 4 notas, trabalhando acentuação a cada 4ª nota.",
+            targetBpm: 80,
+          },
+          {
             name: "Double Stroke Roll (Toque Duplo)",
             type: ExerciseType.RUDIMENTO,
             teacherTip: "Controle de rebote com pulso.",
             targetBpm: 60,
+          },
+          {
+            name: "Multiple Bounce Roll (Buzz Roll)",
+            type: ExerciseType.RUDIMENTO,
+            teacherTip: "Pressão controlada para múltiplos rebotes por baquetada, base do roll sustentado.",
+            targetBpm: 50,
           },
           {
             name: "Single Paradiddle (RLRR LRLL)",
