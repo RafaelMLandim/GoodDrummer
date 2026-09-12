@@ -10,40 +10,20 @@ export function Logo({ size = 48, className }: { size?: number; className?: stri
     >
       <defs>
         <linearGradient id="gd-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6366f1" />
-          <stop offset="55%" stopColor="#c026d3" />
-          <stop offset="100%" stopColor="#f59e0b" />
-        </linearGradient>
-        <linearGradient id="gd-shell" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#fde68a" />
-          <stop offset="100%" stopColor="#f59e0b" />
+          <stop offset="0%" stopColor="#27272a" />
+          <stop offset="100%" stopColor="#450a0a" />
         </linearGradient>
       </defs>
 
       <rect width="64" height="64" rx="16" fill="url(#gd-bg)" />
 
-      {/* corpo do tambor */}
-      <rect x="15" y="30" width="34" height="15" fill="url(#gd-shell)" />
-      <ellipse cx="32" cy="45" rx="17" ry="5.5" fill="#d97706" />
-      {/* aro/lugs */}
-      {[20, 26, 32, 38, 44].map((x) => (
-        <rect key={x} x={x - 1.2} y="30" width="2.4" height="15" fill="#b45309" opacity="0.55" />
-      ))}
-      {/* pele do tambor */}
-      <ellipse cx="32" cy="30" rx="17" ry="5.5" fill="#fffbeb" stroke="#f3e8c7" strokeWidth="1.5" />
-
       {/* baquetas cruzadas */}
-      <g transform="rotate(-32 32 26)">
-        <rect x="30.5" y="8" width="3" height="26" rx="1.5" fill="#fef3c7" stroke="#d97706" strokeWidth="1" />
-        <circle cx="32" cy="8" r="3.4" fill="#fff7ed" stroke="#d97706" strokeWidth="1" />
-      </g>
-      <g transform="rotate(32 32 26)">
-        <rect x="30.5" y="8" width="3" height="26" rx="1.5" fill="#fef3c7" stroke="#d97706" strokeWidth="1" />
-        <circle cx="32" cy="8" r="3.4" fill="#fff7ed" stroke="#d97706" strokeWidth="1" />
-      </g>
-
-      {/* brilho */}
-      <path d="M12 14 l2.4 5.2 5.2 2.4 -5.2 2.4 -2.4 5.2 -2.4 -5.2 -5.2 -2.4 5.2 -2.4 Z" fill="#fff" opacity="0.85" />
+      <line x1="10" y1="54" x2="47" y2="12" stroke="#d4a574" strokeWidth="6" strokeLinecap="round" />
+      <line x1="54" y1="54" x2="17" y2="12" stroke="#d4a574" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="10" cy="54" r="5.6" fill="#e8c9a0" stroke="#7f1d1d" strokeWidth="1.2" />
+      <circle cx="54" cy="54" r="5.6" fill="#e8c9a0" stroke="#7f1d1d" strokeWidth="1.2" />
+      <circle cx="47" cy="12" r="5.6" fill="#e8c9a0" stroke="#7f1d1d" strokeWidth="1.2" />
+      <circle cx="17" cy="12" r="5.6" fill="#e8c9a0" stroke="#7f1d1d" strokeWidth="1.2" />
     </svg>
   );
 }
