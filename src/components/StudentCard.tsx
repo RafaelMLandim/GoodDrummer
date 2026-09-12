@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Flame, Music2, Trophy } from "lucide-react";
+import { Music2, Trophy } from "lucide-react";
 import { studentPhotoSrc } from "@/lib/avatar";
 import { getLevelTheme } from "@/lib/theme";
+import { getLevelHoverEffect } from "@/lib/levelEffects";
 import { LevelBadge } from "@/components/LevelBadge";
 import { LevelRoadmapDots } from "@/components/LevelRoadmap";
 import { XpBar } from "@/components/ui/XpBar";
@@ -9,14 +10,18 @@ import type { StudentSummary } from "@/lib/data";
 
 export function StudentCard({ student }: { student: StudentSummary }) {
   const theme = getLevelTheme(student.currentLevel.color);
+  const hoverEffect = getLevelHoverEffect(student.currentLevel.color);
+  const HoverIcon = hoverEffect.Icon;
 
   return (
     <Link
       href={`/students/${student.id}`}
-      className="group relative block rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-[0_6px_0_0_theme(colors.slate.200)] transition-all hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_10px_0_0_theme(colors.slate.200),0_0_28px_6px_rgba(249,115,22,0.35)]"
+      className={`group relative block rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-[0_6px_0_0_theme(colors.slate.200)] transition-all hover:-translate-y-1 ${hoverEffect.borderHover} ${hoverEffect.glowShadow}`}
     >
-      <span className="pointer-events-none absolute -top-2.5 -right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-red-600 opacity-0 shadow-lg shadow-orange-500/50 transition-opacity duration-300 group-hover:opacity-100">
-        <Flame className="h-4.5 w-4.5 animate-flame text-white" strokeWidth={2.5} fill="currentColor" />
+      <span
+        className={`pointer-events-none absolute -top-2.5 -right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${hoverEffect.badgeGradient} opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100`}
+      >
+        <HoverIcon className={`h-4 w-4 text-white ${hoverEffect.animationClass}`} />
       </span>
 
       <div className="flex items-center gap-4">

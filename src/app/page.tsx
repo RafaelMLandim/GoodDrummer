@@ -20,7 +20,7 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-3">
             <Logo size={52} />
             <div>
-              <h1 className="text-3xl text-white sm:text-4xl">GoodDrummer</h1>
+              <h1 className="font-hero text-4xl text-white sm:text-5xl">GoodDrummer</h1>
               <p className="text-sm font-semibold text-slate-300">Painel dos alunos</p>
             </div>
           </div>

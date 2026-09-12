@@ -29,6 +29,11 @@ h4 {
   letter-spacing: 0.03em;
 }
 
+.font-hero {
+  font-family: var(--font-hero), var(--font-heading), sans-serif;
+  letter-spacing: 0;
+}
+
 button:not(:disabled),
 [role="button"]:not(:disabled),
 select {
@@ -57,4 +62,57 @@ button:disabled {
 
 .animate-flame {
   animation: flame-flicker 0.55s ease-in-out infinite;
+}
+
+@keyframes icon-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-icon-bounce {
+  animation: icon-bounce 0.6s ease-in-out infinite;
+}
+
+@keyframes icon-zap {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  20% {
+    transform: rotate(-12deg) scale(1.1);
+  }
+  40% {
+    transform: rotate(10deg) scale(0.95);
+  }
+  60% {
+    transform: rotate(-6deg) scale(1.08);
+  }
+  80% {
+    transform: rotate(4deg) scale(1);
+  }
+}
+
+.animate-icon-zap {
+  animation: icon-zap 0.5s ease-in-out infinite;
+}
+
+@keyframes icon-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(216, 180, 254, 0.6));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 7px rgba(216, 180, 254, 0.95));
+    transform: scale(1.12);
+  }
+}
+
+.animate-icon-glow {
+  animation: icon-glow 0.9s ease-in-out infinite;
 }
