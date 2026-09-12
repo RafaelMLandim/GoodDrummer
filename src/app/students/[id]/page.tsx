@@ -33,7 +33,7 @@ export default async function StudentPage({
     <div className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6">
       <Link
         href="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-slate-700"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm font-bold text-slate-300 hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
         Voltar ao painel

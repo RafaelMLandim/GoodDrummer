@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
+import { Bebas_Neue, Nunito } from "next/font/google";
 import "./globals.css";
 
-const baloo = Baloo_2({
+const bebasNeue = Bebas_Neue({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["400"],
 });
 
 const nunito = Nunito({
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${baloo.variable} ${nunito.variable} h-full`}>
+    <html lang="pt-BR" className={`${bebasNeue.variable} ${nunito.variable} h-full`}>
       <body
-        className="min-h-full flex flex-col bg-slate-50 antialiased"
+        className="min-h-full flex flex-col antialiased"
         suppressHydrationWarning
       >
         {children}
