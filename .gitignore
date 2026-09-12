@@ -47,3 +47,6 @@ next-env.d.ts
 /.claude/
 /.windsurf/
 /skills-lock.json
+
+# scratch/reference assets dropped locally (deployed copies live under /public)
+/img/

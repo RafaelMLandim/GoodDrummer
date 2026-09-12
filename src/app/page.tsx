@@ -15,10 +15,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="relative flex-1 overflow-hidden">
-      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-200 to-fuchsia-200 opacity-50 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-40 h-72 w-72 rounded-full bg-gradient-to-br from-amber-200 to-rose-200 opacity-50 blur-3xl" />
-
-      <div className="relative mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
+      <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
         <header className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <Logo size={52} />

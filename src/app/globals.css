@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1c1730;
+  --background: #170b0c;
   --foreground: #1e293b;
 }
 
@@ -14,9 +14,9 @@
 
 body {
   background-color: var(--background);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='%23fbbf24' fill-opacity='0.09'%3E%3Cg transform='translate(38,46) rotate(45)'%3E%3Crect x='-2' y='-16' width='4' height='32' rx='2'/%3E%3Ccircle cx='0' cy='-16' r='3.4'/%3E%3C/g%3E%3Cg transform='translate(38,46) rotate(-45)'%3E%3Crect x='-2' y='-16' width='4' height='32' rx='2'/%3E%3Ccircle cx='0' cy='-16' r='3.4'/%3E%3C/g%3E%3Cg transform='translate(190,44)'%3E%3Ccircle cx='0' cy='16' r='6'/%3E%3Crect x='4.5' y='-14' width='2.6' height='30'/%3E%3Cpath d='M7 -14 C 16 -12, 16 -2, 7 2 Z'/%3E%3C/g%3E%3Cg transform='translate(52,178)'%3E%3Crect x='-16' y='-6' width='32' height='14'/%3E%3Cellipse cx='0' cy='8' rx='16' ry='4.5'/%3E%3Cellipse cx='0' cy='-6' rx='16' ry='4.5'/%3E%3C/g%3E%3Cg transform='translate(178,166) scale(0.55)'%3E%3Cpath d='M12 0 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 Z'/%3E%3C/g%3E%3Cg transform='translate(120,110) scale(0.6)'%3E%3Cpath d='M14 0 L2 22 L12 22 L8 40 L26 14 L15 14 Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: linear-gradient(rgba(10, 5, 6, 0.6), rgba(10, 5, 6, 0.6)), url("/background.avif");
   background-repeat: repeat;
-  background-size: 240px 240px;
+  background-size: 420px 420px;
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
 }
