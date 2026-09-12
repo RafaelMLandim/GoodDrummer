@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Music2, Trophy } from "lucide-react";
+import { Flame, Music2, Trophy } from "lucide-react";
 import { studentPhotoSrc } from "@/lib/avatar";
 import { getLevelTheme } from "@/lib/theme";
 import { LevelBadge } from "@/components/LevelBadge";
@@ -13,8 +13,12 @@ export function StudentCard({ student }: { student: StudentSummary }) {
   return (
     <Link
       href={`/students/${student.id}`}
-      className="group block rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-[0_6px_0_0_theme(colors.slate.200)] transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_0_theme(colors.slate.200)]"
+      className="group relative block rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-[0_6px_0_0_theme(colors.slate.200)] transition-all hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_10px_0_0_theme(colors.slate.200),0_0_28px_6px_rgba(249,115,22,0.35)]"
     >
+      <span className="pointer-events-none absolute -top-2.5 -right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-red-600 opacity-0 shadow-lg shadow-orange-500/50 transition-opacity duration-300 group-hover:opacity-100">
+        <Flame className="h-4.5 w-4.5 animate-flame text-white" strokeWidth={2.5} fill="currentColor" />
+      </span>
+
       <div className="flex items-center gap-4">
         <div
           className={`relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} p-0.5`}

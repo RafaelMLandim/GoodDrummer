@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Nunito } from "next/font/google";
+import localFont from "next/font/local";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
-const bebasNeue = Bebas_Neue({
+const heroFont = localFont({
+  src: "./fonts/NightmareHero.ttf",
   variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400"],
+  display: "swap",
 });
 
 const nunito = Nunito({
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${bebasNeue.variable} ${nunito.variable} h-full`}>
+    <html lang="pt-BR" className={`${heroFont.variable} ${nunito.variable} h-full`}>
       <body
         className="min-h-full flex flex-col antialiased"
         suppressHydrationWarning
