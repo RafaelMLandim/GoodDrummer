@@ -1,0 +1,111 @@
+// GoodDrummer — schema do banco de dados
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LevelColor {
+  GREEN
+  YELLOW
+  RED
+  GOLD
+}
+
+enum ModuleCategory {
+  RUDIMENTOS_TECNICA
+  GROOVES_RITMOS
+  LEITURA_TEORIA
+  VIRADAS_FILLS
+  REPERTORIO
+  VIRTUOSIDADE_CHOPS
+  AUTONOMIA_ESTUDIO
+}
+
+enum ExerciseType {
+  RUDIMENTO
+  TECNICA
+  GROOVE
+  LEITURA
+  VIRADA
+  MUSICA
+}
+
+enum ProgressStatus {
+  LOCKED
+  IN_TRAINING
+  COMPLETED
+}
+
+model Level {
+  id         String     @id @default(cuid())
+  order      Int        @unique
+  name       String
+  worldName  String
+  color      LevelColor
+  globalGoal String
+  modules    Module[]
+}
+
+model Module {
+  id        String         @id @default(cuid())
+  levelId   String
+  level     Level          @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  name      String
+  category  ModuleCategory
+  order     Int
+  exercises Exercise[]
+}
+
+model Exercise {
+  id         String         @id @default(cuid())
+  moduleId   String
+  module     Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  name       String
+  type       ExerciseType
+  teacherTip String
+  detail     String?
+  targetBpm  Int?
+  artist     String?
+  order      Int
+  progresses StudentProgress[]
+}
+
+model Student {
+  id         String            @id @default(cuid())
+  name       String
+  age        Int
+  avatarSeed String
+  xp         Int               @default(0)
+  createdAt  DateTime          @default(now())
+  progresses StudentProgress[]
+}
+
+model StudentProgress {
+  id         String         @id @default(cuid())
+  studentId  String
+  student    Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  exerciseId String
+  exercise   Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  status     ProgressStatus @default(LOCKED)
+  stars      Int            @default(0)
+  currentBpm Int?
+  bestBpm    Int?
+  updatedAt  DateTime       @updatedAt
+  bpmRecords BpmRecord[]
+
+  @@unique([studentId, exerciseId])
+}
+
+model BpmRecord {
+  id         String          @id @default(cuid())
+  progressId String
+  progress   StudentProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+  bpm        Int
+  recordedAt DateTime        @default(now())
+}

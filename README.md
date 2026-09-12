@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GoodDrummer 🥁
 
-## Getting Started
+Plataforma gamificada de gestão de alunos de bateria — uso exclusivo do professor durante as aulas. Mostra o que ensinar, metas de BPM e o progresso de cada aluno em um visual cartoonesco.
 
-First, run the development server:
+## Stack
+
+- **Next.js** (App Router) + **TypeScript** estrito — frontend e API (Server Actions) no mesmo projeto.
+- **Prisma** + **PostgreSQL** — banco tipado.
+- **Tailwind CSS** — UI gamificada (cards 3D, cores por nível, barras de XP).
+
+## Rodando localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O arquivo `.env` já contém uma `DATABASE_URL` de um banco Postgres gratuito criado via `create-db` (Prisma Postgres). **Esse banco é temporário e será apagado se não for reivindicado** — veja a seção abaixo.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Reivindicar o banco de dados gratuito
 
-## Learn More
+Ao rodar `npx create-db`, foi impresso um link de "Claim Your Database". Se você não guardou esse link, crie um banco definitivo com uma das opções abaixo antes de fazer o deploy (o banco temporário expira em ~24h).
 
-To learn more about Next.js, take a look at the following resources:
+### Recriando o currículo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O currículo (níveis, módulos e exercícios) fica salvo no banco e é populado pelo script de seed:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run db:seed
+```
 
-## Deploy on Vercel
+Rodar de novo é seguro — ele substitui módulos/exercícios pelo conteúdo de `prisma/seed.ts`, mas **apaga o progresso dos alunos nesses exercícios** (cascade). Alunos em si não são apagados.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy no Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Banco de dados**: crie um Postgres gerenciado (qualquer um funciona com Prisma):
+   - [Vercel Postgres / Neon](https://vercel.com/marketplace/neon) (via aba Storage do projeto na Vercel)
+   - [Prisma Postgres](https://www.prisma.io/postgres)
+   - [Supabase](https://supabase.com)
+2. No painel do Vercel, importe este projeto (via GitHub) ou rode `vercel` na raiz do projeto (CLI, sem precisar de GitHub).
+3. Configure a variável de ambiente `DATABASE_URL` no projeto Vercel com a connection string do banco escolhido.
+4. Deploy. O comando de build (`prisma generate && prisma migrate deploy && next build`) já aplica as migrações automaticamente a cada deploy.
+5. Depois do primeiro deploy, rode o seed **uma vez** apontando para o banco de produção:
+   ```bash
+   DATABASE_URL="<connection-string-de-producao>" npm run db:seed
+   ```
+
+## Estrutura
+
+- `prisma/schema.prisma` — modelos (Level, Module, Exercise, Student, StudentProgress, BpmRecord).
+- `prisma/seed.ts` — currículo completo (4 níveis, do Iniciante ao GoodDrummer).
+- `src/lib/data.ts` — queries e cálculo de XP/progresso.
+- `src/app/actions.ts` — Server Actions (criar aluno, remover aluno, atualizar progresso).
+- `src/components/` — UI (dashboard, skill tree, modais de exercício).
