@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { ProgressStatus } from "@/generated/prisma/client";
+import { Gender, ProgressStatus } from "@/generated/prisma/client";
 
 const photoDataUrlSchema = z
   .string()
@@ -12,10 +12,16 @@ const photoDataUrlSchema = z
   .optional()
   .or(z.literal(""));
 
+const genderSchema = z
+  .enum([Gender.MASCULINO, Gender.FEMININO])
+  .optional()
+  .or(z.literal(""));
+
 const createStudentSchema = z.object({
   name: z.string().trim().min(1, "Nome é obrigatório").max(80),
   age: z.coerce.number().int().min(3).max(99),
   levelId: z.string().min(1, "Selecione um nível"),
+  gender: genderSchema,
   photoDataUrl: photoDataUrlSchema,
 });
 
@@ -32,6 +38,7 @@ export async function createStudentAction(
     name: formData.get("name"),
     age: formData.get("age"),
     levelId: formData.get("levelId"),
+    gender: formData.get("gender"),
     photoDataUrl: formData.get("photoDataUrl"),
   });
 
@@ -44,6 +51,7 @@ export async function createStudentAction(
       name: parsed.data.name,
       age: parsed.data.age,
       currentLevelId: parsed.data.levelId,
+      gender: parsed.data.gender || null,
       photoDataUrl: parsed.data.photoDataUrl || null,
       avatarSeed: `${parsed.data.name}-${Date.now()}`,
     },
@@ -58,6 +66,7 @@ const updateStudentSchema = z.object({
   name: z.string().trim().min(1, "Nome é obrigatório").max(80),
   age: z.coerce.number().int().min(3).max(99),
   levelId: z.string().min(1, "Selecione um nível"),
+  gender: genderSchema,
   photoDataUrl: photoDataUrlSchema,
 });
 
@@ -70,6 +79,7 @@ export async function updateStudentAction(
     name: formData.get("name"),
     age: formData.get("age"),
     levelId: formData.get("levelId"),
+    gender: formData.get("gender"),
     photoDataUrl: formData.get("photoDataUrl"),
   });
 
@@ -83,6 +93,7 @@ export async function updateStudentAction(
       name: parsed.data.name,
       age: parsed.data.age,
       currentLevelId: parsed.data.levelId,
+      gender: parsed.data.gender || null,
       photoDataUrl: parsed.data.photoDataUrl || null,
     },
   });

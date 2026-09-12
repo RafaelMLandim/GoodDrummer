@@ -7,7 +7,9 @@ import { GameButton } from "@/components/ui/GameButton";
 import { Modal } from "@/components/ui/Modal";
 import { PhotoPicker } from "@/components/PhotoPicker";
 import { LevelSelect } from "@/components/LevelSelect";
-import { studentPhotoSrc } from "@/lib/avatar";
+import { GenderSelect } from "@/components/GenderSelect";
+import { avatarUrl } from "@/lib/avatar";
+import type { Gender } from "@/generated/prisma/enums";
 
 const initialState: ActionResult = { ok: false };
 
@@ -20,12 +22,14 @@ export function EditStudentDialog({
     name: string;
     age: number;
     avatarSeed: string;
+    gender: Gender | null;
     photoDataUrl: string | null;
     currentLevel: { id: string };
   };
   levels: { id: string; name: string; worldName: string }[];
 }) {
   const [open, setOpen] = useState(false);
+  const [gender, setGender] = useState<Gender | null>(student.gender);
   const [state, formAction, pending] = useActionState(
     async (prev: ActionResult, formData: FormData) => {
       const result = await updateStudentAction(prev, formData);
@@ -51,7 +55,7 @@ export function EditStudentDialog({
             <PhotoPicker
               name="photoDataUrl"
               initialPreview={student.photoDataUrl}
-              fallbackPreview={studentPhotoSrc({ photoDataUrl: null, avatarSeed: student.avatarSeed })}
+              fallbackPreview={avatarUrl(student.avatarSeed, gender)}
             />
           </div>
 
@@ -82,6 +86,10 @@ export function EditStudentDialog({
               defaultValue={student.age}
               className="w-full rounded-xl border-2 border-slate-200 px-4 py-2.5 font-semibold text-slate-800 outline-none focus:border-sky-400"
             />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-bold text-slate-600">Sexo</label>
+            <GenderSelect value={gender} onChange={setGender} />
           </div>
           <div>
             <label htmlFor="edit-level" className="mb-1 block text-sm font-bold text-slate-600">

@@ -42,6 +42,11 @@ enum ProgressStatus {
   COMPLETED
 }
 
+enum Gender {
+  MASCULINO
+  FEMININO
+}
+
 model Level {
   id         String     @id @default(cuid())
   order      Int        @unique
@@ -82,6 +87,7 @@ model Student {
   name           String
   age            Int
   avatarSeed     String
+  gender         Gender?
   photoDataUrl   String?
   currentLevelId String
   currentLevel   Level             @relation(fields: [currentLevelId], references: [id])

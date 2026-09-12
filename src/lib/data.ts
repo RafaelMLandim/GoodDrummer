@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { maxXpPossible, progressPercent, xpEarned } from "@/lib/gamification";
-import type { LevelColor } from "@/generated/prisma/client";
+import type { Gender, LevelColor } from "@/generated/prisma/client";
 
 export async function getCurriculum() {
   return prisma.level.findMany({
@@ -62,6 +62,7 @@ interface StudentWithProgress {
   name: string;
   age: number;
   avatarSeed: string;
+  gender: Gender | null;
   photoDataUrl: string | null;
   currentLevelId: string;
   currentLevel: { id: string; order: number; name: string; worldName: string; color: LevelColor };
@@ -87,6 +88,7 @@ function summarizeStudent(student: StudentWithProgress, curriculum: Curriculum) 
     name: student.name,
     age: student.age,
     avatarSeed: student.avatarSeed,
+    gender: student.gender,
     photoDataUrl: student.photoDataUrl,
     xp: totalEarned,
     exercisesCompleted,
