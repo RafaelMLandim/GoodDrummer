@@ -18,11 +18,18 @@ export async function getCurriculum() {
 
 export type Curriculum = Awaited<ReturnType<typeof getCurriculum>>;
 
+export async function getLevels() {
+  return prisma.level.findMany({
+    orderBy: { order: "asc" },
+    select: { id: true, order: true, name: true, worldName: true, color: true },
+  });
+}
+
 export async function getStudents() {
   const [students, curriculum] = await Promise.all([
     prisma.student.findMany({
       orderBy: { createdAt: "asc" },
-      include: { progresses: true },
+      include: { progresses: true, currentLevel: true },
     }),
     getCurriculum(),
   ]);
@@ -34,7 +41,10 @@ export async function getStudentDetail(studentId: string) {
   const [student, curriculum] = await Promise.all([
     prisma.student.findUnique({
       where: { id: studentId },
-      include: { progresses: { include: { bpmRecords: { orderBy: { recordedAt: "desc" } } } } },
+      include: {
+        currentLevel: true,
+        progresses: { include: { bpmRecords: { orderBy: { recordedAt: "desc" } } } },
+      },
     }),
     getCurriculum(),
   ]);
@@ -52,6 +62,9 @@ interface StudentWithProgress {
   name: string;
   age: number;
   avatarSeed: string;
+  photoDataUrl: string | null;
+  currentLevelId: string;
+  currentLevel: { id: string; order: number; name: string; worldName: string; color: LevelColor };
   xp: number;
   createdAt: Date;
   progresses: { exerciseId: string; stars: number; status: string }[];
@@ -63,36 +76,51 @@ function summarizeStudent(student: StudentWithProgress, curriculum: Curriculum) 
   );
   const totalEarned = xpEarned(allExercises, student.progresses);
 
-  const currentLevel =
-    curriculum.find((level) => {
-      const exercises = level.modules.flatMap((m) => m.exercises);
-      const earned = xpEarned(exercises, student.progresses);
-      const max = maxXpPossible(exercises);
-      return max === 0 || earned < max;
-    }) ?? curriculum[curriculum.length - 1];
-
-  const levelExercises = currentLevel ? currentLevel.modules.flatMap((m) => m.exercises) : [];
+  const levelData = curriculum.find((level) => level.id === student.currentLevelId);
+  const levelExercises = levelData ? levelData.modules.flatMap((m) => m.exercises) : [];
   const levelEarned = xpEarned(levelExercises, student.progresses);
   const levelMax = maxXpPossible(levelExercises);
+  const exercisesCompleted = student.progresses.filter((p) => p.status === "COMPLETED").length;
 
   return {
     id: student.id,
     name: student.name,
     age: student.age,
     avatarSeed: student.avatarSeed,
+    photoDataUrl: student.photoDataUrl,
     xp: totalEarned,
+    exercisesCompleted,
+    totalExercises: allExercises.length,
     createdAt: student.createdAt,
-    currentLevel: currentLevel
-      ? {
-          id: currentLevel.id,
-          order: currentLevel.order,
-          name: currentLevel.name,
-          worldName: currentLevel.worldName,
-          color: currentLevel.color as LevelColor,
-        }
-      : null,
+    currentLevel: {
+      id: student.currentLevel.id,
+      order: student.currentLevel.order,
+      name: student.currentLevel.name,
+      worldName: student.currentLevel.worldName,
+      color: student.currentLevel.color,
+    },
     levelProgressPercent: progressPercent(levelEarned, levelMax),
+    levelRoadmap: getLevelRoadmap(curriculum, student.progresses),
   };
+}
+
+/** Percentual de conclusão de cada nível do currículo, para o mapa de jornada do aluno. */
+function getLevelRoadmap(
+  curriculum: Curriculum,
+  progresses: { exerciseId: string; stars: number }[]
+) {
+  return curriculum.map((level) => {
+    const exercises = level.modules.flatMap((m) => m.exercises);
+    const earned = xpEarned(exercises, progresses);
+    const max = maxXpPossible(exercises);
+    return {
+      id: level.id,
+      order: level.order,
+      name: level.name,
+      color: level.color,
+      percent: progressPercent(earned, max),
+    };
+  });
 }
 
 export type StudentSummary = Awaited<ReturnType<typeof getStudents>>[number];

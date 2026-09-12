@@ -1,13 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
-import { avatarUrl } from "@/lib/avatar";
+import { Music2, Trophy } from "lucide-react";
+import { studentPhotoSrc } from "@/lib/avatar";
 import { getLevelTheme } from "@/lib/theme";
 import { LevelBadge } from "@/components/LevelBadge";
+import { LevelRoadmapDots } from "@/components/LevelRoadmap";
 import { XpBar } from "@/components/ui/XpBar";
 import type { StudentSummary } from "@/lib/data";
 
 export function StudentCard({ student }: { student: StudentSummary }) {
-  const theme = student.currentLevel ? getLevelTheme(student.currentLevel.color) : null;
+  const theme = getLevelTheme(student.currentLevel.color);
 
   return (
     <Link
@@ -16,17 +17,13 @@ export function StudentCard({ student }: { student: StudentSummary }) {
     >
       <div className="flex items-center gap-4">
         <div
-          className={`relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${
-            theme?.gradient ?? "from-slate-300 to-slate-400"
-          } p-0.5`}
+          className={`relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} p-0.5`}
         >
-          <Image
-            src={avatarUrl(student.avatarSeed)}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={studentPhotoSrc(student)}
             alt={student.name}
-            width={60}
-            height={60}
             className="h-full w-full rounded-[14px] bg-white object-cover"
-            unoptimized
           />
         </div>
         <div className="min-w-0 flex-1">
@@ -35,14 +32,25 @@ export function StudentCard({ student }: { student: StudentSummary }) {
         </div>
       </div>
 
-      <div className="mt-4 space-y-1.5">
-        {student.currentLevel && (
+      <div className="mt-4 space-y-2">
+        <div className="flex items-center justify-between">
           <LevelBadge color={student.currentLevel.color} label={student.currentLevel.name} size="sm" />
-        )}
-        <div className="flex items-center gap-2 pt-1">
+          <LevelRoadmapDots levels={student.levelRoadmap} currentLevelId={student.currentLevel.id} />
+        </div>
+        <div className="flex items-center gap-2">
           <XpBar percent={student.levelProgressPercent} />
           <span className="shrink-0 text-xs font-bold text-slate-400">
             {student.levelProgressPercent}%
+          </span>
+        </div>
+        <div className="flex items-center gap-3 pt-0.5 text-xs font-bold text-slate-400">
+          <span className="inline-flex items-center gap-1">
+            <Trophy className="h-3.5 w-3.5" />
+            {student.exercisesCompleted}/{student.totalExercises} dominados
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Music2 className="h-3.5 w-3.5" />
+            {student.xp} XP
           </span>
         </div>
       </div>

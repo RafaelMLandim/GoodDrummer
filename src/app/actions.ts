@@ -5,9 +5,18 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { ProgressStatus } from "@/generated/prisma/client";
 
+const photoDataUrlSchema = z
+  .string()
+  .max(2_000_000, "Foto muito grande")
+  .regex(/^data:image\/(jpeg|png|webp);base64,/, "Formato de imagem inválido")
+  .optional()
+  .or(z.literal(""));
+
 const createStudentSchema = z.object({
   name: z.string().trim().min(1, "Nome é obrigatório").max(80),
   age: z.coerce.number().int().min(3).max(99),
+  levelId: z.string().min(1, "Selecione um nível"),
+  photoDataUrl: photoDataUrlSchema,
 });
 
 export interface ActionResult {
@@ -22,6 +31,8 @@ export async function createStudentAction(
   const parsed = createStudentSchema.safeParse({
     name: formData.get("name"),
     age: formData.get("age"),
+    levelId: formData.get("levelId"),
+    photoDataUrl: formData.get("photoDataUrl"),
   });
 
   if (!parsed.success) {
@@ -32,10 +43,51 @@ export async function createStudentAction(
     data: {
       name: parsed.data.name,
       age: parsed.data.age,
+      currentLevelId: parsed.data.levelId,
+      photoDataUrl: parsed.data.photoDataUrl || null,
       avatarSeed: `${parsed.data.name}-${Date.now()}`,
     },
   });
 
+  revalidatePath("/");
+  return { ok: true };
+}
+
+const updateStudentSchema = z.object({
+  studentId: z.string().min(1),
+  name: z.string().trim().min(1, "Nome é obrigatório").max(80),
+  age: z.coerce.number().int().min(3).max(99),
+  levelId: z.string().min(1, "Selecione um nível"),
+  photoDataUrl: photoDataUrlSchema,
+});
+
+export async function updateStudentAction(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const parsed = updateStudentSchema.safeParse({
+    studentId: formData.get("studentId"),
+    name: formData.get("name"),
+    age: formData.get("age"),
+    levelId: formData.get("levelId"),
+    photoDataUrl: formData.get("photoDataUrl"),
+  });
+
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Dados inválidos" };
+  }
+
+  await prisma.student.update({
+    where: { id: parsed.data.studentId },
+    data: {
+      name: parsed.data.name,
+      age: parsed.data.age,
+      currentLevelId: parsed.data.levelId,
+      photoDataUrl: parsed.data.photoDataUrl || null,
+    },
+  });
+
+  revalidatePath(`/students/${parsed.data.studentId}`);
   revalidatePath("/");
   return { ok: true };
 }

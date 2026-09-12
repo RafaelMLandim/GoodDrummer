@@ -50,6 +50,7 @@ model Level {
   color      LevelColor
   globalGoal String
   modules    Module[]
+  students   Student[]
 }
 
 model Module {
@@ -77,13 +78,16 @@ model Exercise {
 }
 
 model Student {
-  id         String            @id @default(cuid())
-  name       String
-  age        Int
-  avatarSeed String
-  xp         Int               @default(0)
-  createdAt  DateTime          @default(now())
-  progresses StudentProgress[]
+  id             String            @id @default(cuid())
+  name           String
+  age            Int
+  avatarSeed     String
+  photoDataUrl   String?
+  currentLevelId String
+  currentLevel   Level             @relation(fields: [currentLevelId], references: [id])
+  xp             Int               @default(0)
+  createdAt      DateTime          @default(now())
+  progresses     StudentProgress[]
 }
 
 model StudentProgress {
