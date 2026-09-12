@@ -22,7 +22,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${baloo.variable} ${nunito.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-slate-50 antialiased">{children}</body>
+      <body
+        className="min-h-full flex flex-col bg-slate-50 antialiased"
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   );
 }
