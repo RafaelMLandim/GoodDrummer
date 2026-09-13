@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Star, Target } from "lucide-react";
+import { Star, Target, Video } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { GameButton } from "@/components/ui/GameButton";
 import { updateProgressAction } from "@/app/actions";
@@ -53,6 +53,10 @@ export function ExerciseModal({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(
+    ["bateria", exercise.name, exercise.artist].filter(Boolean).join(" ")
+  )}`;
+
   function handleSave() {
     setError(null);
     startTransition(async () => {
@@ -88,6 +92,16 @@ export function ExerciseModal({
             <p className="mt-1 text-sm text-slate-500">{exercise.detail}</p>
           )}
         </div>
+
+        <a
+          href={youtubeSearchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 rounded-2xl border-2 border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 transition-colors hover:border-sky-300 hover:text-sky-600"
+        >
+          <Video className="h-4 w-4" />
+          Ver vídeos no YouTube
+        </a>
 
         {exercise.targetBpm && (
           <div className="flex items-center gap-2 text-sm font-bold text-slate-500">
