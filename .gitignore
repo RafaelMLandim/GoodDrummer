@@ -50,3 +50,6 @@ next-env.d.ts
 
 # scratch/reference assets dropped locally (deployed copies live under /public)
 /img/
+
+.vercel
+.env*
