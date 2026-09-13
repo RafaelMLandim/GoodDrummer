@@ -1,4 +1,4 @@
-// GoodDrummer — schema do banco de dados
+// GodDrummer — schema do banco de dados
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {

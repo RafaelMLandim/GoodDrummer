@@ -22,7 +22,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "GoodDrummer",
+  title: "GodDrummer",
   description: "Plataforma gamificada de gestão de alunos de bateria",
 };
 

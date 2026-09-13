@@ -48,8 +48,6 @@ next-env.d.ts
 /.windsurf/
 /skills-lock.json
 
-# scratch/reference assets dropped locally (deployed copies live under /public)
-/img/
 
 .vercel
 .env*

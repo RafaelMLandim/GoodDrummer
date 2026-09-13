@@ -43,7 +43,7 @@ const THEMES: Record<LevelColor, LevelTheme> = {
     buttonShadow: "shadow-[0_6px_0_0_theme(colors.red.700)]",
   },
   GOLD: {
-    label: "GoodDrummer",
+    label: "GodDrummer",
     gradient: "from-fuchsia-500 via-purple-500 to-amber-400",
     solid: "bg-purple-600",
     border: "border-purple-800",

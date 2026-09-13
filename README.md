@@ -1,4 +1,4 @@
-# GoodDrummer 🥁
+# GodDrummer 🥁
 
 Plataforma gamificada de gestão de alunos de bateria — uso exclusivo do professor durante as aulas. Mostra o que ensinar, metas de BPM e o progresso de cada aluno em um visual cartoonesco.
 
@@ -50,7 +50,7 @@ Rodar de novo é seguro — ele substitui módulos/exercícios pelo conteúdo de
 ## Estrutura
 
 - `prisma/schema.prisma` — modelos (Level, Module, Exercise, Student, StudentProgress, BpmRecord).
-- `prisma/seed.ts` — currículo completo (4 níveis, do Iniciante ao GoodDrummer).
+- `prisma/seed.ts` — currículo completo (4 níveis, do Iniciante ao GodDrummer).
 - `src/lib/data.ts` — queries e cálculo de XP/progresso.
 - `src/app/actions.ts` — Server Actions (criar aluno, remover aluno, atualizar progresso).
 - `src/components/` — UI (dashboard, skill tree, modais de exercício).

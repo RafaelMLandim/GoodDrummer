@@ -3,7 +3,7 @@ export function Logo({ size = 48, className }: { size?: number; className?: stri
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src="/drumsticks.webp"
-      alt="GoodDrummer"
+      alt="GodDrummer"
       className={`inline-block shrink-0 object-contain ${className ?? ""}`}
       style={{ width: size, height: size }}
     />

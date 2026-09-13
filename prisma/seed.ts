@@ -487,7 +487,7 @@ const curriculum: LevelSeed[] = [
   },
   {
     order: 4,
-    name: "GoodDrummer",
+    name: "GodDrummer",
     worldName: "Mundo Final - O Mestre dos Pratos",
     color: LevelColor.GOLD,
     globalGoal:
